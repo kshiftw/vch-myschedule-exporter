@@ -30,8 +30,5 @@
                 "export.js"
             ]
         }
-    ],
-    "host_permissions": [
-        "https://myschedule.vch.ca/employee/sched/readonly/employee*"
     ]
 }
