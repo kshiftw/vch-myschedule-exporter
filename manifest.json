@@ -12,9 +12,6 @@
     "action": {
         "default_popup": "popup.html"
     },
-    "permissions": [
-        "activeTab"
-    ],
     "background": {
         "service_worker": "background.js"
     },

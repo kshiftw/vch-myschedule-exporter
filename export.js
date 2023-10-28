@@ -279,7 +279,7 @@ let exportCalendar = async function () {
     let entries = await getEntries();
 
     if (entries.length === 0) {
-        alert('Unable to create a schedule. No shifts were found for the selected year. Please make sure the selected year is correct.');
+        alert('Unable to find shifts in the search selection. \nPlease make sure to click the "Search" button first.');
         return false;
     } else {
         let iCalContentArray = await convertEntriesToICal(entries);
@@ -432,6 +432,7 @@ $(document).ready(function () {
     // Export calendar when the "Download file" button is clicked
     $(document).on('click', '#export', async function (event) {
         console.log("Export initiated...")
+        alert("Export started. This will reload your page several times and may take a few minutes...")
 
         let numPages = getNumPages();
         let currentPage = 1;
