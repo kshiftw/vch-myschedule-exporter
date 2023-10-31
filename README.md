@@ -2,16 +2,17 @@
 
 VCH MySchedule Exporter is a Google Chrome Extension that exports your work shifts from Vancouver Coastal Health (VCH) MySchedule into an iCalendar (.ics) file. 
 
-Link: <link>
-
 ![VCH MySchedule Exporter](./images/screenshot.png)
+
+# Where can I download the extension?
+You can find the extension in [the Chrome Web Store!](https://chrome.google.com/webstore/detail/vch-myschedule-exporter/cnlicejghdbkkjbnlihjmijbhkcmeikk)
 
 # Why would I use it?
 Vancouver Coastal Health (VCH) MySchedule currently doesn't provide a way to export work shifts. With the help of this extension, you are able to easily export work shifts into events in your personal calendar (Google Calendar, Microsoft Outlook, Apple Calendar, etc.). 
 
 # How do I use it?
 ## Step 1: Export the calendar as iCal
-1. Download the extension: <link>
+1. Download the extension [from the Chrome Web Store](https://chrome.google.com/webstore/detail/vch-myschedule-exporter/cnlicejghdbkkjbnlihjmijbhkcmeikk)
 2. Log in to [VCH MySchedule](https://myschedule.vch.ca/employee/) 
 3. Click "Schedule" > "My Shifts"
 4. In the Search Parameters section, select the search parameters
