@@ -102,7 +102,6 @@ function convertEntryToICal(entry, settings) {
         'DTSTAMP:' + moment().format("YYYYMMDDTHHmmss") + '\n' +
         'DTSTART;TZID=' + `${timezone}:${date}T${startTime}` + '\n' +
         'DTEND;TZID=' + `${timezone}:${date}T${endTime}` + '\n' +
-        'LOCATION:' + unit + '\n' +
         'SUMMARY:' + summary + '\n' +
         'DESCRIPTION:' +
         'Shift: ' + name + '\\n' +
@@ -302,20 +301,39 @@ function appendExportDiv() {
             <label class="control-label label">Calendar Event Title</label> \
             <div class="control form-field-width select"> \
                 <select name="selectTitle" id="selectTitle" class="select"> \
+                    <option value="duration">Duration</option> \
                     <option value="name">Occ.</option> \
                     <option value="unit">Unit</option> \
-                    <option value="duration">Duration</option> \
                     <option value="start_time">Start Time</option> \
                     <option value="end_time">End Time</option> \
                     <option value="status">Status</option> \
                     <option value="custom">Custom Text</option> \
                 </select> \
             </div> \
+            <p class="help">The title for each event created. See preview below.</p> \
         </div> \
         <div id="customTitleDiv" class="control-group field" style="display: none;"> \
             <label class="control-label label">Custom Event Title</label> \
             <div class="control form-field-width"> \
                 <input type="text" id="customTitle" name="customTitle" class="input" placeholder="Enter custom title"> \
+            </div> \
+        </div> \
+        <div class="control-group field"> \
+            <label class="control-label label">Calendar Event Preview</label> \
+            <div class="box"> \
+                <p><b>Title:</b><br><span id="preview-title">09:30 - 21:30 PST</span></p> \
+                <p>---</p> \
+                <p><b>Description:</b><br>\
+                    <span id="preview-description"> \
+                        Shift: Registered Nurse-Critical Care<br> \
+                        Date: Nov 01, 2023<br> \
+                        Time: 09:30 - 21:30 PST<br> \
+                        Type: Working<br> \
+                        Location: VGH - PACU-JP PACU Vancouver General Hospital<br> \
+                        Union: NURS<br> \
+                        Pay Code: RG - REG Regular Hours<br> \
+                    </span> \
+                </p> \
             </div> \
         </div> \
         <div id="selectStatuses" class="control-group field"> \
@@ -337,6 +355,29 @@ function appendExportDiv() {
         </div> \
         <input id="export" value="Download file 🚀" class="btn btn-primary button is-primary submit-button-top-margin">'
     )
+}
+
+function updatePreview(selectedOption) {
+    switch (selectedOption) {
+        case 'duration':
+            $('#preview-title').text("09:30 - 21:30 PST");
+            break;
+        case 'name':
+            $('#preview-title').text("Registered Nurse-Critical Care");
+            break;
+        case 'unit':
+            $('#preview-title').text("VGH - PACU-JP PACU Vancouver General Hospital");
+            break;
+        case 'start_time':
+            $('#preview-title').text("09:30");
+            break;
+        case 'end_time':
+            $('#preview-title').text("21:30");
+            break;
+        case 'status':
+            $('#preview-title').text("Working");
+            break;
+    }
 }
 
 /*
@@ -398,12 +439,16 @@ $(document).ready(function () {
         let selectedOption = $(this).val()
         let customTitleDiv = document.getElementById('customTitleDiv');
 
+        updatePreview(selectedOption);
+
         if (selectedOption === 'custom') {
             customTitleDiv.style.display = 'inline';
         } else {
             customTitleDiv.style.display = 'none';
         }
     });
+
+    // if customtext changes, update the preview
 
     // Reset export status when the "Search" button is clicked
     $('#submit-id-submit').click(function () {
