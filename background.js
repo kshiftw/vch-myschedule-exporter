@@ -6,6 +6,7 @@ let exportStarted = false;
 let settings = {
     title: "name",
     custom_title: "",
+    include_description: true,
     include_working_status: true,
     include_planned_leave_status: true
 };
@@ -70,12 +71,14 @@ function updateSettings(message) {
     const newSettings = {
         title: message.data.title,
         custom_title: message.data.custom_title,
+        include_description: message.data.include_description,
         include_working_status: message.data.include_working_status,
         include_planned_leave_status: message.data.include_planned_leave_status
     }
 
     settings.title = newSettings.title;
     settings.custom_title = newSettings.custom_title;
+    settings.include_description = newSettings.include_description;
     settings.include_working_status = newSettings.include_working_status;
     settings.include_planned_leave_status = newSettings.include_planned_leave_status;
 }

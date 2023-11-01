@@ -96,6 +96,21 @@ function convertEntryToICal(entry, settings) {
 
     let summary = getSummaryFromSettings(entry, settings);
 
+    let includeDescription = settings.include_description;
+
+    let descriptionContent = '';
+    if (includeDescription) {
+        descriptionContent =
+            'DESCRIPTION:' +
+            'Shift: ' + name + '\\n' +
+            'Date: ' + dateText + '\\n' +
+            'Time: ' + duration + '\\n' +
+            'Type: ' + status + '\\n' +
+            'Location: ' + unit + '\\n' +
+            'Union: ' + union + '\\n' +
+            'Pay Code: ' + paycode + '\\n\n';
+    }
+
     let iCalContent =
         'BEGIN:VEVENT\n' +
         'UID:' + generateICalUID() + '\n' +
@@ -103,14 +118,7 @@ function convertEntryToICal(entry, settings) {
         'DTSTART;TZID=' + `${timezone}:${date}T${startTime}` + '\n' +
         'DTEND;TZID=' + `${timezone}:${date}T${endTime}` + '\n' +
         'SUMMARY:' + summary + '\n' +
-        'DESCRIPTION:' +
-        'Shift: ' + name + '\\n' +
-        'Date: ' + dateText + '\\n' +
-        'Time: ' + duration + '\\n' +
-        'Type: ' + status + '\\n' +
-        'Location: ' + unit + '\\n' +
-        'Union: ' + union + '\\n' +
-        'Pay Code: ' + paycode + '\\n\n' +
+        descriptionContent +
         'END:VEVENT\n';
 
     // Remove double spaces from content.
@@ -295,7 +303,7 @@ function appendExportDiv() {
         '<hr /> \
         <h3 class="title is-3">Export Calendar</h3> \
         <div class="control-group field"> \
-            <p>Export the search results to an iCalendar (.ics) file. This file can be imported into Google Calendar, Microsoft Outlook, and other calendar applications.</p> \
+            <p>Export the search results to an iCalendar (.ics) file. This file can be imported into Google Calendar, Apple Calendar, Microsoft Outlook, and other calendar applications.</p> \
         </div> \
         <div class="control-group field"> \
             <label class="control-label label">Calendar Event Title</label> \
@@ -310,7 +318,7 @@ function appendExportDiv() {
                     <option value="custom">Custom Text</option> \
                 </select> \
             </div> \
-            <p class="help">The title for each event created. See preview below.</p> \
+            <p class="help">The title for each event exported</p> \
         </div> \
         <div id="customTitleDiv" class="control-group field" style="display: none;"> \
             <label class="control-label label">Custom Event Title</label> \
@@ -318,8 +326,20 @@ function appendExportDiv() {
                 <input type="text" id="customTitle" name="customTitle" class="input" placeholder="Enter custom title"> \
             </div> \
         </div> \
+        <div id="includeEventDescription" class="control-group field"> \
+            <label class="control-label label">Calendar Event Description</label> \
+            <div class="controls"> \
+                <ul style="margin-left: 0; margin-top: 0"> \
+                    <li>\
+                        <label class="checkbox-label" for="id_checkbox_description">\
+                            <input checked name="checkbox_description" id="id_checkbox_description" type="checkbox" class="checkbox-input" style="margin-right: 5px;">\
+                         Include description</label> \
+                    </li> \
+                </ul> \
+            </div> \
+        </div> \
         <div class="control-group field"> \
-            <label class="control-label label">Calendar Event Preview</label> \
+            <label class="control-label label">Calendar Event Preview (Example)</label> \
             <div class="box"> \
                 <p><b>Title:</b><br><span id="preview-title">09:30 - 21:30 PST</span></p> \
                 <p>---</p> \
@@ -352,6 +372,7 @@ function appendExportDiv() {
                     </li> \
                 </ul> \
             </div> \
+            <p class="help">Select the types of statuses to include</p> \
         </div> \
         <input id="export" value="Download file 🚀" class="btn btn-primary button is-primary submit-button-top-margin">'
     )
@@ -414,6 +435,7 @@ function exportReset() {
 function updateSettings() {
     let titleSetting = $('#selectTitle').val();
     let customTitleSetting = $('#customTitle').val();
+    let includeDescription = $('#id_checkbox_description').prop('checked');
 
     let includeWorkingStatus = $('#id_checkbox_working').prop('checked');
     let includePlannedLeaveStatus = $('#id_checkbox_planned_leave').prop('checked');
@@ -421,6 +443,7 @@ function updateSettings() {
     let newSettings = {
         title: titleSetting,
         custom_title: customTitleSetting,
+        include_description: includeDescription,
         include_working_status: includeWorkingStatus,
         include_planned_leave_status: includePlannedLeaveStatus
     }
@@ -442,13 +465,27 @@ $(document).ready(function () {
         updatePreview(selectedOption);
 
         if (selectedOption === 'custom') {
-            customTitleDiv.style.display = 'inline';
+            customTitleDiv.style.display = 'block';
         } else {
             customTitleDiv.style.display = 'none';
         }
     });
 
-    // if customtext changes, update the preview
+    $('#id_checkbox_description').change(function () {
+        let checked = $(this).prop('checked');
+        let previewDescription = $('#preview-description');
+
+        if (checked) {
+            previewDescription.show();
+        } else {
+            previewDescription.hide();
+        }
+    });
+
+    $('#customTitle').keyup(function () {
+        let customTitle = $(this).val();
+        $('#preview-title').text(customTitle);
+    });
 
     // Reset export status when the "Search" button is clicked
     $('#submit-id-submit').click(function () {
