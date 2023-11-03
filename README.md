@@ -10,19 +10,33 @@ You can find the extension in [the Chrome Web Store!](https://chrome.google.com/
 # Why would I use it?
 Vancouver Coastal Health (VCH) MySchedule currently doesn't provide a way to export work shifts. With the help of this extension, you are able to easily export work shifts into events in your personal calendar (Google Calendar, Microsoft Outlook, Apple Calendar, etc.). 
 
+# Requirements
+This tool is a Google Chrome browser extension that works on desktop web browsers (i.e. not compatible with mobile devices). To use this tool, you need the following:
+- Google Chrome browser on your desktop
+- Calendar application (e.g. Google Calendar, Microsoft Outlook, Apple Calendar) that is able to import iCalendar files
+
 # How do I use it?
 ## Step 1: Export the calendar as iCal
-1. Download the extension [from the Chrome Web Store](https://chrome.google.com/webstore/detail/vch-myschedule-exporter/cnlicejghdbkkjbnlihjmijbhkcmeikk)
-2. Log in to [VCH MySchedule](https://myschedule.vch.ca/employee/) 
-3. Click "Schedule" > "My Shifts"
-4. In the Search Parameters section, select the search parameters
-5. Click "Search"
-6. In the Export Calendar section, select the export settings
-7. Click "Download file". This will download a file: `vch-my-schedule.ics`
-8. Go to your calendar (Google Calendar, Microsoft Outlook, Apple Calendar etc.) and import `vch-my-schedule.ics`
+#### 1. Download the extension [from the Chrome Web Store](https://chrome.google.com/webstore/detail/vch-myschedule-exporter/cnlicejghdbkkjbnlihjmijbhkcmeikk)
+#### 2. Log in to [VCH MySchedule](https://myschedule.vch.ca/employee/) 
+![Log In](./images/login.png)
+#### 3. Click "Schedule" > "My Shifts"
+![My Shifts](./images/my_shifts.png)
+#### 4. In the Search Parameters section, select the search parameters. Click "Search".
+![Search](./images/search.png)
+#### 5. In the Export Calendar section, select the export settings. Click "Download file".
+![Export](./images/export.png)
+#### 6. A popup will notify you that the export is about to start. Click "OK". The page will reload several times and then download a file: `vch-my-schedule.ics`
+![Popup](./images/popup.png)
+#### 7. Go to your personal calendar (Google Calendar, Microsoft Outlook, Apple Calendar, etc.) and import `vch-my-schedule.ics`. See instructions in the section below.
 
 ## Step 2: Import iCal to personal calendar
 ### Google Calendar
+![Import into Google Calendar](./images/gcal_import_1.png)
+
+![Import into Google Calendar](./images/gcal_import_2.png)
+
+![Import into Google Calendar](./images/gcal_import_3.png)
 1. Open Google Calendar
 2. Near the top right, click Settings (gear icon) > "Settings"
 3. In the menu on the left, click "Import & Export"
@@ -35,6 +49,8 @@ Vancouver Coastal Health (VCH) MySchedule currently doesn't provide a way to exp
 Reference: https://support.google.com/calendar/answer/37118
 
 ### Apple Calendar
+![Import into Apple Calendar](./images/apple_import.png)
+
 1. Open Apple Calendar
 2. Click "File" > "Import"
 3. Select the downloaded file: `vch-my-schedule.ics`
@@ -75,6 +91,6 @@ The extension will detect if your browser is on the "My Shifts" page in VCH MySc
 2. Click Extension "Details"
 3. Under "Inspect views" -> Click service worker
 
-# What can be improved?
-## Exclude event description
-By default, the extension will include all event details in the description. The extension could include a setting that allows the user to exclude the details.
+# Troubleshooting
+## Why can't I see the Export section on the My Shifts page?
+The export section is embedded into the page by the extension. Please make sure you have installed the extension from [the Chrome Web Store](https://chrome.google.com/webstore/detail/vch-myschedule-exporter/cnlicejghdbkkjbnlihjmijbhkcmeikk) and refresh your page.

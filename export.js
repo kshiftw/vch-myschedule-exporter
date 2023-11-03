@@ -299,11 +299,15 @@ let exportCalendar = async function () {
  * Appends the Export Calendar section to the My Shifts page.
  */
 function appendExportDiv() {
+    $('#div_id_pay_code').append(
+        '<p class="help">(Optional) Filters the search for a specific pay code</p>'
+    )
+
     $('div.box > form').first().find('div.form-actions').append(
         '<hr /> \
         <h3 class="title is-3">Export Calendar</h3> \
         <div class="control-group field"> \
-            <p>Export the search results to an iCalendar (.ics) file. This file can be imported into Google Calendar, Apple Calendar, Microsoft Outlook, and other calendar applications.</p> \
+            <p>Export the search results to an iCalendar (.ics) file which can be imported into Google Calendar, Apple Calendar, Microsoft Outlook, and other calendar applications</p> \
         </div> \
         <div class="control-group field"> \
             <label class="control-label label">Calendar Event Title</label> \
@@ -514,7 +518,7 @@ $(document).ready(function () {
     // Export calendar when the "Download file" button is clicked
     $(document).on('click', '#export', async function (event) {
         console.log("Export initiated...")
-        alert("Export started. This will reload your page several times and may take a few minutes...")
+        alert("Export started and your page will reload several times. Please do not close your browser tab! \n\nThis may take a few minutes...")
 
         let numPages = getNumPages();
         let currentPage = 1;
