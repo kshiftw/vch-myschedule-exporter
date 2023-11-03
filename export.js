@@ -96,22 +96,29 @@ function convertEntryToICal(entry, settings) {
 
     let summary = getSummaryFromSettings(entry, settings);
 
+    let includeDescription = settings.include_description;
+
+    let descriptionContent = '';
+    if (includeDescription) {
+        descriptionContent =
+            'DESCRIPTION:' +
+            'Shift: ' + name + '\\n' +
+            'Date: ' + dateText + '\\n' +
+            'Time: ' + duration + '\\n' +
+            'Type: ' + status + '\\n' +
+            'Location: ' + unit + '\\n' +
+            'Union: ' + union + '\\n' +
+            'Pay Code: ' + paycode + '\\n\n';
+    }
+
     let iCalContent =
         'BEGIN:VEVENT\n' +
         'UID:' + generateICalUID() + '\n' +
         'DTSTAMP:' + moment().format("YYYYMMDDTHHmmss") + '\n' +
         'DTSTART;TZID=' + `${timezone}:${date}T${startTime}` + '\n' +
         'DTEND;TZID=' + `${timezone}:${date}T${endTime}` + '\n' +
-        'LOCATION:' + unit + '\n' +
         'SUMMARY:' + summary + '\n' +
-        'DESCRIPTION:' +
-        'Shift: ' + name + '\\n' +
-        'Date: ' + dateText + '\\n' +
-        'Time: ' + duration + '\\n' +
-        'Type: ' + status + '\\n' +
-        'Location: ' + unit + '\\n' +
-        'Union: ' + union + '\\n' +
-        'Pay Code: ' + paycode + '\\n\n' +
+        descriptionContent +
         'END:VEVENT\n';
 
     // Remove double spaces from content.
@@ -292,30 +299,65 @@ let exportCalendar = async function () {
  * Appends the Export Calendar section to the My Shifts page.
  */
 function appendExportDiv() {
+    $('#div_id_pay_code').append(
+        '<p class="help">(Optional) Filters the search for a specific pay code</p>'
+    )
+
     $('div.box > form').first().find('div.form-actions').append(
         '<hr /> \
         <h3 class="title is-3">Export Calendar</h3> \
         <div class="control-group field"> \
-            <p>Export the search results to an iCalendar (.ics) file. This file can be imported into Google Calendar, Microsoft Outlook, and other calendar applications.</p> \
+            <p>Export the search results to an iCalendar (.ics) file which can be imported into Google Calendar, Apple Calendar, Microsoft Outlook, and other calendar applications</p> \
         </div> \
         <div class="control-group field"> \
             <label class="control-label label">Calendar Event Title</label> \
             <div class="control form-field-width select"> \
                 <select name="selectTitle" id="selectTitle" class="select"> \
+                    <option value="duration">Duration</option> \
                     <option value="name">Occ.</option> \
                     <option value="unit">Unit</option> \
-                    <option value="duration">Duration</option> \
                     <option value="start_time">Start Time</option> \
                     <option value="end_time">End Time</option> \
                     <option value="status">Status</option> \
                     <option value="custom">Custom Text</option> \
                 </select> \
             </div> \
+            <p class="help">The title for each event exported</p> \
         </div> \
         <div id="customTitleDiv" class="control-group field" style="display: none;"> \
             <label class="control-label label">Custom Event Title</label> \
             <div class="control form-field-width"> \
                 <input type="text" id="customTitle" name="customTitle" class="input" placeholder="Enter custom title"> \
+            </div> \
+        </div> \
+        <div id="includeEventDescription" class="control-group field"> \
+            <label class="control-label label">Calendar Event Description</label> \
+            <div class="controls"> \
+                <ul style="margin-left: 0; margin-top: 0"> \
+                    <li>\
+                        <label class="checkbox-label" for="id_checkbox_description">\
+                            <input checked name="checkbox_description" id="id_checkbox_description" type="checkbox" class="checkbox-input" style="margin-right: 5px;">\
+                         Include description</label> \
+                    </li> \
+                </ul> \
+            </div> \
+        </div> \
+        <div class="control-group field"> \
+            <label class="control-label label">Calendar Event Preview (Example)</label> \
+            <div class="box"> \
+                <p><b>Title:</b><br><span id="preview-title">09:30 - 21:30 PST</span></p> \
+                <p>---</p> \
+                <p><b>Description:</b><br>\
+                    <span id="preview-description"> \
+                        Shift: Registered Nurse-Critical Care<br> \
+                        Date: Nov 01, 2023<br> \
+                        Time: 09:30 - 21:30 PST<br> \
+                        Type: Working<br> \
+                        Location: VGH - PACU-JP PACU Vancouver General Hospital<br> \
+                        Union: NURS<br> \
+                        Pay Code: RG - REG Regular Hours<br> \
+                    </span> \
+                </p> \
             </div> \
         </div> \
         <div id="selectStatuses" class="control-group field"> \
@@ -334,9 +376,33 @@ function appendExportDiv() {
                     </li> \
                 </ul> \
             </div> \
+            <p class="help">Select the types of statuses to include</p> \
         </div> \
         <input id="export" value="Download file 🚀" class="btn btn-primary button is-primary submit-button-top-margin">'
     )
+}
+
+function updatePreview(selectedOption) {
+    switch (selectedOption) {
+        case 'duration':
+            $('#preview-title').text("09:30 - 21:30 PST");
+            break;
+        case 'name':
+            $('#preview-title').text("Registered Nurse-Critical Care");
+            break;
+        case 'unit':
+            $('#preview-title').text("VGH - PACU-JP PACU Vancouver General Hospital");
+            break;
+        case 'start_time':
+            $('#preview-title').text("09:30");
+            break;
+        case 'end_time':
+            $('#preview-title').text("21:30");
+            break;
+        case 'status':
+            $('#preview-title').text("Working");
+            break;
+    }
 }
 
 /*
@@ -373,6 +439,7 @@ function exportReset() {
 function updateSettings() {
     let titleSetting = $('#selectTitle').val();
     let customTitleSetting = $('#customTitle').val();
+    let includeDescription = $('#id_checkbox_description').prop('checked');
 
     let includeWorkingStatus = $('#id_checkbox_working').prop('checked');
     let includePlannedLeaveStatus = $('#id_checkbox_planned_leave').prop('checked');
@@ -380,6 +447,7 @@ function updateSettings() {
     let newSettings = {
         title: titleSetting,
         custom_title: customTitleSetting,
+        include_description: includeDescription,
         include_working_status: includeWorkingStatus,
         include_planned_leave_status: includePlannedLeaveStatus
     }
@@ -398,11 +466,29 @@ $(document).ready(function () {
         let selectedOption = $(this).val()
         let customTitleDiv = document.getElementById('customTitleDiv');
 
+        updatePreview(selectedOption);
+
         if (selectedOption === 'custom') {
-            customTitleDiv.style.display = 'inline';
+            customTitleDiv.style.display = 'block';
         } else {
             customTitleDiv.style.display = 'none';
         }
+    });
+
+    $('#id_checkbox_description').change(function () {
+        let checked = $(this).prop('checked');
+        let previewDescription = $('#preview-description');
+
+        if (checked) {
+            previewDescription.show();
+        } else {
+            previewDescription.hide();
+        }
+    });
+
+    $('#customTitle').keyup(function () {
+        let customTitle = $(this).val();
+        $('#preview-title').text(customTitle);
     });
 
     // Reset export status when the "Search" button is clicked
@@ -432,7 +518,7 @@ $(document).ready(function () {
     // Export calendar when the "Download file" button is clicked
     $(document).on('click', '#export', async function (event) {
         console.log("Export initiated...")
-        alert("Export started. This will reload your page several times and may take a few minutes...")
+        alert("Export started and your page will reload several times. Please do not close your browser tab! \n\nThis may take a few minutes...")
 
         let numPages = getNumPages();
         let currentPage = 1;
