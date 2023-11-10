@@ -18,7 +18,10 @@
 > ⚠️ **_WARNING:_**
 > Once you import `vch-my-schedule.ics`, there currently isn't a way to remove all events that were imported. Therefore, for your first import, it is recommended that you select an import destination calendar that is different from your normal calendar. 
 
-In your personal calendar, find the import button and select `vch-my-schedule.ics`. Below are the instructions to import for Google Calendar, Apple Calendar, and Outlook Calendar:
+In your personal calendar, find the import button and select `vch-my-schedule.ics`. Below are the instructions to import for:
+- [Google Calendar](#google-calendar)
+- [Apple Calendar](#apple-calendar)
+- [Outlook Calendar](#outlook-calendar)
 
 ### Google Calendar
 ![Import into Google Calendar](../images/gcal_import_1.png)
