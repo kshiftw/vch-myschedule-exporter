@@ -12,9 +12,14 @@
 ![Export](../images/export.png)
 #### 6. A popup will notify you that the export is about to start. Click "OK". The page will reload several times and then download a file: `vch-my-schedule.ics`
 ![Popup](../images/popup.png)
-#### 7. Go to your personal calendar (Google Calendar, Microsoft Outlook, Apple Calendar, etc.) and import `vch-my-schedule.ics`. See instructions in the section below.
+#### 7. Go to your personal calendar (Google Calendar, Apple Calendar, Outlook Calendar, etc.) and import `vch-my-schedule.ics`. See instructions in the section below.
 
 ## Step 2: Import iCal to personal calendar
+> ⚠️ **_WARNING:_**
+> Once you import `vch-my-schedule.ics`, there currently isn't a way to remove all events that were imported. Therefore, for your first import, it is recommended that you select an import destination calendar that is different from your normal calendar. 
+
+In your personal calendar, find the import button and select `vch-my-schedule.ics`. Below are the instructions to import for Google Calendar, Apple Calendar, and Outlook Calendar:
+
 ### Google Calendar
 ![Import into Google Calendar](../images/gcal_import_1.png)
 
@@ -42,7 +47,7 @@ Reference: https://support.google.com/calendar/answer/37118
 
 Reference: https://support.apple.com/en-ca/guide/calendar/icl1023
 
-### Microsoft Outlook
+### Outlook Calendar
 1. Open Microsoft Outlook
 2. Select "File" > "Open & Export" > "Import/Export"
 3. In Import and Export Wizard box, select "Import an iCalendar (.ics) or vCalendar file (.vcs)",and then "Next"
