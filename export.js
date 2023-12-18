@@ -371,12 +371,18 @@ function appendExportDiv() {
                     </li> \
                     <li>\
                         <label class="checkbox-label" for="id_checkbox_planned_leave">\
-                            <input checked name="checkbox_planned_leave" id="id_checkbox_planned_leave" type="checkbox" class="checkbox-input" style="margin-right: 5px;">\
+                            <input name="checkbox_planned_leave" id="id_checkbox_planned_leave" type="checkbox" class="checkbox-input" style="margin-right: 5px;">\
                          Planned Leave</label> \
                     </li> \
                 </ul> \
             </div> \
             <p class="help">Select the types of statuses to include</p> \
+        </div> \
+        <div class="control-group field"> \
+            <label class="control-label label">Download</label> \
+            <div> \
+                <p>It is recommended that you import the downloaded `vch-my-schedule.ics` file into <em>a new calendar</em> instead of your daily calendar. For more information, see our <a href="https://github.com/kshiftw/vch-myschedule-exporter/blob/main/docs/instructions.md#step-2-import-ical-to-personal-calendar">instructions page.</a></p> \
+            </div> \
         </div> \
         <input id="export" value="Download file 🚀" class="btn btn-primary button is-primary submit-button-top-margin">'
     )
