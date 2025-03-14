@@ -19,3 +19,8 @@
 1. Go to Chrome Extensions page (chrome://extensions/)
 2. Click Extension "Details"
 3. Under "Inspect views" -> Click service worker
+
+# Managing the published extension
+1. Zip the entire directory `zip -r vch-myschedule-exporter.zip vch-myschedule-exporter -x "*/.git/*"`
+2. In the Chrome Web Store Developer Dashboard, click "Upload new package"
+3. Submit for review
