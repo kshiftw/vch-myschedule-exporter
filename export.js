@@ -463,7 +463,10 @@ function updateSettings() {
 
 $(document).ready(function () {
     // Show dropdown only if on the "My Shifts" page
-    if (window.location.href.includes('myschedule.vch.ca/employee/sched/readonly/employee')) {
+    if (
+        window.location.href.includes('myschedule.vch.ca/employee/sched/readonly/employee') ||
+        window.location.href.includes('myschedule.fraserhealth.ca/employee/sched/readonly/employee')
+    ) {
         appendExportDiv();
     };
 
